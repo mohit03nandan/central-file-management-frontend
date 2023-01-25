@@ -1,0 +1,22 @@
+.container{
+    margin: 0;
+  
+}
+.col3{
+    height: 800px;
+    background: #E5E5E5;
+}
+.logo{
+  padding-left: 20px;
+  color: black;
+  
+}
+
+.cuvette{
+    height: 150px;
+    background-color: #E5E5E5; ;
+}
+.Addfile{
+    margin-left: 30px;
+    
+}
