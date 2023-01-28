@@ -1,7 +1,16 @@
 import React from "react";
 import style from "./Home.module.css";
 import image from "../images/cuvettelogo.jpg";
+import { useNavigate } from "react-router-dom";
+import SetPin from "../SetPin/SetPin";
+
 const Home = () => {
+ const navigate = useNavigate();
+
+function LockNow(){
+  navigate("/")
+}
+
   return (
     <div>
       <div class="container" className={style.container}>
@@ -69,7 +78,9 @@ const Home = () => {
                 <button
                   type="button"
                   class="btn btn-primary "
+           
                   style={{ marginLeft: "30px", marginTop: "540px" }}
+                  onClick = {LockNow}
                 >
                   <div class="row">
                     <div class="col-2" style={{ paddingLeft: "80px" }}>
@@ -93,6 +104,8 @@ const Home = () => {
             </div>
           </div>
           <div class="col-sm-9">
+            <SetPin />
+          
             <div class="container">
               <div
                 style={{
@@ -106,6 +119,8 @@ const Home = () => {
                   type="button"
                   class="btn btn-light"
                   style={{ marginRight: "30px" }}
+                  data-bs-toggle="modal"
+                  data-bs-target="#staticBackdrop2"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -120,7 +135,11 @@ const Home = () => {
                   </svg>
                 </button>
 
-                <button type="button" class="btn btn-light">
+                <button type="button" class="btn btn-light"   
+                  onClick={LockNow}
+              
+                  data-bs-toggle="modal"
+                  data-bs-target="#staticBackdrop1">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="21"
