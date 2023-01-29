@@ -1,16 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import style from "./Home.module.css";
 import image from "../images/cuvettelogo.jpg";
 import { useNavigate } from "react-router-dom";
 import SetPin from "../SetPin/SetPin";
+import Folders from "../Folders/Folders";
 
 const Home = () => {
- const navigate = useNavigate();
+  const navigate = useNavigate();
 
-function LockNow(){
-  navigate("/")
-}
+  const [folderValue, setfolderValue] = useState([]);
+  console.log("foldervalue", folderValue);
 
+  const [folderBreadcrumb, setfolderBreadcrumb] = useState(" ");
+  function LockNow() {
+    navigate("/");
+  }
+
+  console.log("folderBreadcrumb", folderBreadcrumb);
   return (
     <div>
       <div class="container" className={style.container}>
@@ -50,7 +56,12 @@ function LockNow(){
                     </div>
                   </div>
                   <div class="col-6">
-                    <button type="button" class="btn btn-outline-primary ">
+                    <button
+                      type="button"
+                      class="btn btn-outline-primary "
+                      data-bs-toggle="modal"
+                      data-bs-target="#exampleModal"
+                    >
                       <div class="row">
                         <div class="col-4">
                           <svg
@@ -70,6 +81,67 @@ function LockNow(){
                     </button>
                   </div>
                 </div>
+
+                {/* <div class="row"> */}
+                {/* <div class="col-12"> */}
+                <div>
+                  {folderValue && (
+                    <div style={{ marginTop: "50px" }}>
+                      {folderValue.map((Folders) => (
+                        <div
+                          className="card"
+                          style={{
+                            marginLeft: "40px",
+                            marginTop: "20px",
+                            background: "#EBF0F5",
+                            borderRadius: "5px",
+                            width: "250px",
+                            height: "45px",
+                          }}
+                        >
+                          <div
+                            class="row"
+                            key={Folders.id}
+                            onClick={() => {
+                              setfolderBreadcrumb(Folders.folderName);
+                            }}
+                          >
+                            <div
+                              className="col-3"
+                              style={{
+                                paddingLeft: "40px",
+                                paddingTop: "10px",
+                              }}
+                            >
+                              {/*  */}
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="22"
+                                height="22"
+                                fill="currentColor"
+                                class="bi bi-folder"
+                                viewBox="0 0 16 16"
+                              >
+                                <path d="M.54 3.87.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.826a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31zM2.19 4a1 1 0 0 0-.996 1.09l.637 7a1 1 0 0 0 .995.91h10.348a1 1 0 0 0 .995-.91l.637-7A1 1 0 0 0 13.81 4H2.19zm4.69-1.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707z" />
+                              </svg>
+                            </div>
+                            <div
+                              className="col-9"
+                              style={{
+                                paddingLeft: "20px",
+                                paddingTop: "10px",
+                              }}
+                            >
+                              <h4 style={{ color: "#566474" }}>
+                                {Folders.folderName}
+                              </h4>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
               <div
                 className="container-fluid"
@@ -78,9 +150,8 @@ function LockNow(){
                 <button
                   type="button"
                   class="btn btn-primary "
-           
                   style={{ marginLeft: "30px", marginTop: "540px" }}
-                  onClick = {LockNow}
+                  onClick={LockNow}
                 >
                   <div class="row">
                     <div class="col-2" style={{ paddingLeft: "80px" }}>
@@ -105,7 +176,7 @@ function LockNow(){
           </div>
           <div class="col-sm-9">
             <SetPin />
-          
+            <Folders setfolderValue={setfolderValue} />
             <div class="container">
               <div
                 style={{
@@ -135,11 +206,14 @@ function LockNow(){
                   </svg>
                 </button>
 
-                <button type="button" class="btn btn-light"   
+                <button
+                  type="button"
+                  class="btn btn-light"
                   onClick={LockNow}
-              
-                  data-bs-toggle="modal"
-                  data-bs-target="#staticBackdrop1">
+
+                  // data-bs-toggle="modal"
+                  // data-bs-target="#staticBackdrop1"
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="21"
@@ -159,6 +233,20 @@ function LockNow(){
                   </svg>
                 </button>
               </div>
+            </div>
+            <div style={{ marginTop: "100px" }}>
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item">
+                    <h5>{folderBreadcrumb}</h5>
+                  </li>
+                  <li class="breadcrumb-item active" aria-current="page">
+                    file name
+                  </li>
+                </ol>
+              </nav>
+
+              <hr />
             </div>
           </div>
         </div>

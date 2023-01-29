@@ -3,8 +3,9 @@
   
 }
 .col3{
-    height: 800px;
+    height: 750px;
     background: #E5E5E5;
+    overflow-y: scroll; 
 }
 .logo{
   padding-left: 20px;
@@ -19,4 +20,8 @@
 .Addfile{
     margin-left: 30px;
     
+}
+
+.folders{
+    /* overflow-y: scroll; */
 }

@@ -12,8 +12,6 @@ const SetPin = () => {
     reEnterPassword: "",
   });
 
- 
-
   function handleChange(e) {
     const { name, value } = e.target;
     setpin({
@@ -24,21 +22,19 @@ const SetPin = () => {
 
   const submitPassword = async (e) => {
     if (pin.password === pin.reEnterPassword && pin.password !== "") {
-     await axios
+      await axios
         .post("http://localhost:3001/register", pin)
         .then((res) => console.log(res));
 
-        alert("password reset successfully")
+      alert("password reset successfully");
     } else {
       alert("! Not mached");
     }
-
-   
-  }
+  };
 
   return (
     <div class="container" className={style.photos}>
-      {console.log("pin", pin)}
+      {/* {console.log("pin", pin)} */}
 
       <div
         class="modal fade"
