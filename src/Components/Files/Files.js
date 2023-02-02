@@ -1,48 +1,58 @@
-import React, { useState, useEffect } from "react";
+import React, { useState , useEffect} from "react";
 import axios from "axios";
 
-const Folders = (props) => {
-  const [folder, setfolder] = useState("");
-  const [fetchFolder, setfetchFolder] = useState([]);
-  console.log("fetchFolder", fetchFolder);
+const Files = (props) => {
+  const [file, setfile] = useState("");
+  const [filesId, setfilesId] = useState("");
+  const [fetchFile, setfetchFile] = useState([]);
+  console.log("fetchFile",fetchFile)
+  console.log("filesId",filesId);
 
-  // console.log("folder", folder);
-  function folderChange(e) {
-    setfolder(e.target.value);
+
+  function fileChange(e) {
+    setfile(e.target.value);
+    
   }
 
-  const passFolder = async () => {
-    await axios.post("http://localhost:3001/folders", { folder: folder });
 
-    const response = await axios.post(
-      "http://localhost:3001/folders/get-folder"
+
+  const passfiles = async() =>{
+     setfilesId(props.setfolderId)
+
+     const response = await axios.post(
+      "http://localhost:3001/files/get-file",{filesId:filesId}
     );
+    console.log("filedata",response.data)
+    setfetchFile(response.data)
+    props.setFileValue(fetchFile)
+     await axios.post("http://localhost:3001/files", { file: file, filesId:filesId })
 
-    setfetchFolder(response.data);
-    console.log("response.data",response.data)
-    props.setfolderValue(fetchFolder);
-  };
+    
+   
+  }
 
-  const fetchData = async () => {
+  // const fetchData = async () => {
 
-    const response = await axios.post(
-      "http://localhost:3001/folders/get-folder"
-    );
-    setfetchFolder(response.data);
+  //   const response = await axios.post(
+  //     "http://localhost:3001/files/get-file"
+  //   );
+  //   setfetchFile(response.data);
 
-  };
+  // };
   
-   props.setfolderValue(fetchFolder)
+  //  props.setFileValue(fetchFile)
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   fetchData();
+  // }, []);
+
+
 
   return (
     <div>
       <div
         class="modal fade"
-        id="exampleModal"
+        id="addfiles"
         tabindex="-1"
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
@@ -51,7 +61,7 @@ const Folders = (props) => {
           <div class="modal-content">
             <div class="modal-header">
               <h1 class="modal-title fs-5" id="exampleModalLabel">
-                Add folder
+                Add files
               </h1>
               <button
                 type="button"
@@ -63,16 +73,16 @@ const Folders = (props) => {
             <div class="modal-body">
               <div class="input-group input-group-sm mb-3">
                 <span class="input-group-text" id="inputGroup-sizing-sm">
-                  Enter folder Name
+                  Enter file Name
                 </span>
                 <input
                   name="folder"
-                  value={folder}
+                  value={file}
                   type="text"
                   class="form-control"
                   aria-label="Sizing example input"
                   aria-describedby="inputGroup-sizing-sm"
-                  onChange={folderChange}
+                  onChange={fileChange}
                 />
               </div>
             </div>
@@ -81,7 +91,7 @@ const Folders = (props) => {
                 type="button"
                 class="btn btn-primary"
                 data-bs-dismiss="modal"
-                onClick={passFolder}
+                onClick={passfiles}
               >
                 Save
               </button>
@@ -94,4 +104,4 @@ const Folders = (props) => {
   );
 };
 
-export default Folders;
+export default Files;

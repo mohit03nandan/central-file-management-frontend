@@ -4,6 +4,8 @@ import image from "../images/cuvettelogo.jpg";
 import { useNavigate } from "react-router-dom";
 import SetPin from "../SetPin/SetPin";
 import Folders from "../Folders/Folders";
+import Files from "../Files/Files";
+import axios from "axios";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -11,7 +13,16 @@ const Home = () => {
   const [folderValue, setfolderValue] = useState([]);
   console.log("foldervalue", folderValue);
 
+  const [FileValue, setFileValue] = useState([]);
+  console.log("FileValue", FileValue);
+
   const [folderBreadcrumb, setfolderBreadcrumb] = useState(" ");
+  const [fileBreadcrumb, setfileBreadcrumb] = useState(" ");
+
+  const [folderId, setfolderId] = useState("");
+  console.log("folderId", folderId);
+
+  // document.getElementById(Folders.id).color= "red";
   function LockNow() {
     navigate("/");
   }
@@ -35,7 +46,12 @@ const Home = () => {
                 <div class="row">
                   <div class="col-6">
                     <div className={style.Addfile}>
-                      <button type="button" class="btn btn-outline-primary ">
+                      <button
+                        type="button"
+                        class="btn btn-outline-primary "
+                        data-bs-toggle="modal"
+                        data-bs-target="#addfiles"
+                      >
                         <div class="row">
                           <div class="col-4">
                             <svg
@@ -101,9 +117,15 @@ const Home = () => {
                         >
                           <div
                             class="row"
-                            key={Folders.id}
-                            onClick={() => {
+                            key={Folders._id}
+                            onClick={async () => {
+                              const result = await axios.post(
+                                "http://localhost:3001/files/get-file",
+                                { filesId: Folders._id }
+                              );
+                              setFileValue(result.data);
                               setfolderBreadcrumb(Folders.folderName);
+                              setfolderId(Folders._id);
                             }}
                           >
                             <div
@@ -177,6 +199,7 @@ const Home = () => {
           <div class="col-sm-9">
             <SetPin />
             <Folders setfolderValue={setfolderValue} />
+            <Files setfolderId={folderId} setFileValue={setFileValue} />
             <div class="container">
               <div
                 style={{
@@ -206,14 +229,7 @@ const Home = () => {
                   </svg>
                 </button>
 
-                <button
-                  type="button"
-                  class="btn btn-light"
-                  onClick={LockNow}
-
-                  // data-bs-toggle="modal"
-                  // data-bs-target="#staticBackdrop1"
-                >
+                <button type="button" class="btn btn-light" onClick={LockNow}>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="21"
@@ -241,13 +257,36 @@ const Home = () => {
                     <h5>{folderBreadcrumb}</h5>
                   </li>
                   <li class="breadcrumb-item active" aria-current="page">
-                    file name
+                    {fileBreadcrumb}
                   </li>
                 </ol>
               </nav>
 
               <hr />
+        
+              <div  >
+              {FileValue.map((folder, index) => (
+                <div key={index} >
+                  {/* <h2>{folder._id}</h2> */}
+                  <div className="card" style={{flexDirection: "row"}}>
+                    {folder.FilesName.map((file, index) => (
+                      <div key={index} style={{marginLeft:"30px" , marginTop:"10px"}} onClick={()=>{setfileBreadcrumb(file.fileValue)}} >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="90" height="90" fill="#69A1F8" class="bi bi-file-earmark-text-fill" viewBox="0 0 16 16">
+                        <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM4.5 9a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1h-4z"/>
+                        </svg>
+                        <h5 style={{marginTop:"10px", textAlign:"center"}}>{file.fileValue}</h5>
+                        
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
             </div>
+               
+            </div>
+          </div>
+          <div>
+         
           </div>
         </div>
       </div>
